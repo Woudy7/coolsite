@@ -4,3 +4,9 @@ body {
     margin: auto;
     padding: 20px;
   }
+
+  nav {
+    background-color: black;
+    color: white;
+    font-weight: bold;
+  }
