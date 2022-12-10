@@ -10,3 +10,10 @@ nav {
     color: white;
     font-weight: bold;
 }
+
+a {
+    background-color: black;
+    padding: 20px;
+    border: 5px;
+    border-color: white;
+}
