@@ -11,7 +11,7 @@ nav {
     font-weight: bold;
 }
 
-a {
+a:link, a:visited, a:hover {
     background-color: black;
     padding: 5px;
     color: white;
