@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TodoList</title>
+</head>
+<body>
+    <h1>To-Do List</h1>
+    <form id="todo-form">
+      <input type="text" id="todo-input" placeholder="Add a new item">
+      <button type="submit">Add</button>
+    </form>
+    <ul id="todo-list">
+    </ul>
+    <script>
+        // Get a reference to the form, input, and list elements
+        var form = document.getElementById('todo-form');
+        var input = document.getElementById('todo-input');
+        var list = document.getElementById('todo-list');
+        
+        // Listen for the submit event on the form
+        form.addEventListener('submit', function(event) {
+          // Prevent the default form submission behavior
+          event.preventDefault();
+        
+          // Get the value of the input field
+          var todo = input.value;
+        
+          // Create a new li element
+          var newElement = document.createElement('li');
+        
+          // Set the text content of the li element
+          newElement.innerText = todo;
+        
+          // Add a click event listener to the li element
+          newElement.addEventListener('click', function() {
+            // When the element is clicked, toggle the "done" class
+            newElement.classList.toggle('done');
+          });
+        
+          // Add a button to the li element
+          var removeButton = document.createElement('button');
+          removeButton.innerText = 'Remove';
+          newElement.appendChild(removeButton);
+        
+          // Add a click event listener to the remove button
+          removeButton.addEventListener('click', function() {
+            // When the button is clicked, remove the li element from the list
+            list.removeChild(newElement);
+          });
+        
+          // Add the li element to the list
+          list.appendChild(newElement);
+        
+          // Clear the input field
+          input.value = '';
+        });
+        </script>
+</body>
+</html>

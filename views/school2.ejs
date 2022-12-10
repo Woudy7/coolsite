@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Term and Definition List</title>
+    <style>
+      /* Some basic styling for the page */
+      body {
+        font-family: sans-serif;
+        max-width: 600px;
+        margin: auto;
+        padding: 20px;
+      }
+
+      /* Style the form */
+      form {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 20px;
+      }
+
+      /* Style the input fields */
+      input[type="text"] {
+        font-size: 14px;
+        padding: 5px;
+        margin-bottom: 10px;
+      }
+
+      /* Style the submit button */
+      input[type="submit"] {
+        font-size: 14px;
+        padding: 5px 10px;
+        background-color: #333;
+        color: #fff;
+      }
+
+      /* Style the list of terms and definitions */
+      dl {
+        margin: 0;
+        padding: 0;
+      }
+
+      dt, dd {
+        margin: 0;
+        padding: 10px 0;
+        font-size: 14px;
+      }
+
+      dt {
+        font-weight: bold;
+      }
+
+      /* Style the delete buttons */
+      .delete-button {
+        font-size: 12px;
+        padding: 5px 10px;
+        background-color: #333;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+        margin-left: 10px;
+      }
+    </style>
+</head>
+<body>
+    <h1>Term and Definition List</h1>
+    <form id="form">
+        <label for="term-input">Term:</label>
+        <input type="text" id="term-input" />
+        <label for="definition-input">Definition:</label>
+        <input type="text" id="definition-input" />
+        <input type="submit" value="Add" />
+        <input type="button" id="copy-button" value="Copy List" />
+        <input type="text" id="paste-input" placeholder="Paste saved list here" />
+        <input type="button" id="test-button" value="Start Test" />
+      </form>
+    <dl id="list"></dl>
+    <script>
+      // Get references to the form and list elements
+      const form = document.querySelector('#form');
+      const list = document.querySelector('#list');
+
+       // Get a reference to the copy and paste buttons
+        const copyButton = document.querySelector('#copy-button');
+      const pasteInput = document.querySelector('#paste-input');
+
+// Get a reference to the test button
+const testButton = document.querySelector('#test-button');
+
+      // An array to store the terms and definitions
+      let terms = [];
+
+      // A function to render the list of terms and definitions
+      function renderList() {
+        // Clear the existing list
+        list.innerHTML = '';
+
+        // Loop through the terms and definitions
+        for (const [index, term] of terms.entries()) {
+          // Create a new DT element for the term
+          const dt = document.createElement('dt');
+          dt.textContent = term.term;
+
+          // Create a new DD element for the definition
+          const dd = document.createElement('dd');
+          dd.textContent = term.definition;
+
+          // Create a new button for deleting the term and definition
+          const deleteButton = document.createElement('button');
+   // Set the text and class of the delete button
+   deleteButton.textContent = 'Delete';
+          deleteButton.classList.add('delete-button');
+
+          // Add a click event listener to the delete button
+          deleteButton.addEventListener('click', () => {
+            // Remove the term and definition from the array
+            terms.splice(index, 1);
+
+            // Re-render the list
+            renderList();
+          });
+
+          // Create a new button for editing the term and definition
+          const editButton = document.createElement('button');
+
+          // Set the text and class of the edit button
+          editButton.textContent = 'Edit';
+          editButton.classList.add('edit-button');
+
+          // Add a click event listener to the edit button
+          editButton.addEventListener('click', () => {
+            // Get the values of the term and definition inputs
+            const termValue = document.querySelector('#term-input').value;
+            const definitionValue = document.querySelector('#definition-input').value;
+
+            // Update the term and definition in the array
+            terms[index] = { term: termValue, definition: definitionValue };
+
+            // Clear the input fields
+            document.querySelector('#term-input').value = '';
+            document.querySelector('#definition-input').value = '';
+
+            // Re-render the list
+            renderList();
+          });
+
+          // Add the term, definition, and buttons to the list
+          list.appendChild(dt);
+          list.appendChild(dd);
+          list.appendChild(deleteButton);
+          list.appendChild(editButton);
+        }
+      }
+
+      // Add a submit event listener to the form
+      form.addEventListener('submit', (event) => {
+        // Prevent the form from being submitted
+        event.preventDefault();
+
+        // Get the values of the term and definition inputs
+        const termValue = document.querySelector('#term-input').value;
+        const definitionValue = document.querySelector('#definition-input').value;
+
+        // Add the term and definition to the array
+        terms.push({ term: termValue, definition: definitionValue });
+
+        // Clear the input fields
+        document.querySelector('#term-input').value = '';
+        document.querySelector('#definition-input').value = '';
+
+        // Re-render the list
+        renderList();
+      });
+
+      // Add a click event listener to the copy button
+      copyButton.addEventListener('click', () => {
+        // Convert the array of terms and definitions to a string
+        const listString = JSON.stringify(terms);
+
+        // Copy the string to the clipboard
+        navigator.clipboard.writeText(listString);
+      });
+
+      // Add a change event listener to the paste input field
+      pasteInput.addEventListener('change', () => {
+        // Get the text from the paste input field
+        const listString = pasteInput.value;
+
+        // Convert the string to an array of terms and definitions
+        const newTerms = JSON.parse(listString);
+        console.log(terms)
+        console.log(newTerms)
+        // Update the array of terms and definitions
+        terms = newTerms;
+
+        // Clear the paste input field
+        pasteInput.value = '';
+
+        // Re-render the list
+        renderList();
+      });
+ // Add a click event listener to the test button
+ testButton.addEventListener('click', () => {
+        // Choose a random term from the list
+        const index = Math.floor(Math.random() * terms.length);
+        const term = terms[index];
+
+        // Create a form for the user to enter the definition
+        const testForm = document.createElement('form');
+        testForm.innerHTML = `
+          <p>Enter the definition of "${term.term}":</p>
+          <input type="text" id="definition-input" />
+          <input type="submit" value="Submit" />
+          <input type="button" id="exit-button" value="Exit Test" />
+        `;
+
+        // Add a submit event listener to the test form
+        testForm.addEventListener('submit', (event) => {
+          // Prevent the form from being submitted
+          event.preventDefault();
+
+          // Get the value of the definition input field
+          const definitionValue = document.querySelector('#definition-input').value;
+
+          // Check if the definition is correct
+          if (definitionValue.toLowerCase() === term.definition.toLowerCase()) {
+            // Remove the term from the list
+            terms.splice(index, 1);
+          }
+
+          // Clear the input field
+          document.querySelector('#definition-input').value = '';
+
+          // Re-render the list
+          renderList();
+
+          // Choose a new random term for the test
+          testButton.click();
+        });
+
+        
+
+        // Add the test form to the page
+        document.body.appendChild(testForm);
+
+        // Add an exit event listener to the exit button
+        document.querySelector('#exit-button').addEventListener('click', () => {
+          // Remove the test form from the page
+          testForm.remove();
+        });
+      });
+
+      // Render the initial list of terms and definitions
+      renderList();
+    </script>
+</body>
+</html>

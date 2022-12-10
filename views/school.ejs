@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>body {
+        font-family: sans-serif;
+      }
+      
+      h1 {
+        text-align: center;
+      }
+      
+      #list {
+        max-width: 600px;
+        margin: 0 auto;
+      }
+      
+      .term-and-definition {
+        margin-bottom: 10px;
+      }
+      
+      .term {
+        font-weight: bold;
+      }
+      
+      .definition {
+        margin-left: 10px;
+      }
+      
+      button {
+        margin-left: 10px;
+      } </style>
+</head>
+<body>
+    <form id="add-form">
+        <input type="text" id="term-input" placeholder="Add a new term">
+        <input type="text" id="definition-input" placeholder="Add a new definition">
+        <button type="submit">Add</button>
+      </form>
+      <button type="button" id="json-button">Get Json</button>
+      <div id="json-show"></div>
+      <div id="term-list">
+      </div>
+
+    <script>// Get a reference to the form, input, and list elements
+        var form = document.getElementById('add-form');
+        var input = document.getElementById('term-input');
+        var def_input = document.getElementById('definition-input')
+        var list = document.getElementById('term-list');
+        
+        var json_button = document.getElementById('json-button')
+        var json_show = document.getElementById('json-show')
+        
+
+        // Listen for the submit event on the form
+        form.addEventListener('submit', function(event) {
+          // Prevent the default form submission behavior
+          event.preventDefault();
+        
+          // Get the value of the input field
+          var term = input.value;
+          var definition = def_input.value
+
+
+          // Create a new li element
+          if (term.length === 0) {
+            return
+          }
+          if (definition.length === 0) {
+            def_input.focus()
+            return
+          }
+          var newElement = document.createElement('li');
+        
+          // Set the text content of the li element
+          newElement.innerText = term + ": " + definition;
+        
+          // Add a click event listener to the li element
+          newElement.addEventListener('click', function() {
+            // When the element is clicked, toggle the "done" class
+            newElement.classList.toggle('done');
+          });
+        
+          // Add a button to the li element
+          var editButton = document.createElement('button');
+          editButton.innerText = 'Edit';
+          newElement.appendChild(editButton);
+          
+          editButton.addEventListener('click', function() {
+            // When the button is clicked, remove the li element from the list
+            input.value = term
+            def_input.value = definition   
+            list.removeChild(newElement);
+          });
+
+          var removeButton = document.createElement('button');
+          removeButton.innerText = 'Remove';
+          newElement.appendChild(removeButton);
+        
+          // Add a click event listener to the remove button
+          removeButton.addEventListener('click', function() {
+            // When the button is clicked, remove the li element from the list
+            list.removeChild(newElement);
+          });
+        
+          // Add the li element to the list
+          list.appendChild(newElement);
+          // Clear the input field
+          input.value = '';
+          def_input.value = '';
+          input.focus()
+        });
+
+        json_button.addEventListener('click', function() {
+            term_list = []
+            var list_elements = list.childNodes
+            for (let i = 0; i < list_elements.length; i++) {
+              const element = list_elements[i];
+              term_list[i] = element.firstChild.innerHTML
+
+            }
+            json_show.innerHTML = JSON.stringify(term_list)
+        })
+        </script>
+</body>
+</html>

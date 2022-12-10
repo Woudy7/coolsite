@@ -1,0 +1,10 @@
+body {
+    background-color: black;
+    color: green;
+    font-family: monospace;
+}
+
+a {
+    color: white;
+    font-size: 200%;
+}

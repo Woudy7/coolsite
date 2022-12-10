@@ -1,0 +1,13 @@
+body {
+    background-color: purple;
+    color: white;
+    font-family: fantasy;
+}
+
+a {
+    color:yellow;
+}
+
+a:hover {
+    font-size: 1000%;
+}

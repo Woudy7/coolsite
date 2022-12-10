@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="css/flexstyle.css" />
+</head>
+<body>
+    <div id="tiles"></div>
+    <script>
+        const wrapper = document.getElementById("tiles")
+        let columns = Math.floor(document.body.clientWidth / 50)
+        let rows = Math.floor(document.body.clientHeight / 50)
+
+    
+    const colors = [
+        "rgb(0, 0, 255)",
+        "rgb(255,0,255)",
+        "rgb(0,255,0)"
+    ]
+    
+    const colors2 = [
+        "rgb(229, 57, 53)",
+        "rgb(253, 216, 53)",
+        "rgb(244, 81, 30)",
+        "rgb(76, 175, 80)",
+        "rgb(33, 150 , 243)",
+        "rgb(156, 39, 176)"
+    ]
+
+    let count = -1
+
+    const handleOnClick = index => {
+        
+        
+        let tileList = wrapper.children
+        for (let i = 0; i < tileList.length; i++) {
+            let tileChild = tileList[i]
+            count = count + 1
+            
+            tileChild.style.setProperty("--color",colors[count % (colors.length)])
+        }
+    }
+
+const createTile = index => {
+    const tile = document.createElement("div")
+
+    tile.classList.add("tile")
+    tile.classList.add("transtile")
+    tile.style.setProperty("--color",colors[count])
+    tile.onclick = e => handleOnClick(index)
+
+    return tile
+}
+
+const createTiles = quantity => {
+    console.log(quantity)
+    Array.from(Array(quantity)).map((tile, index) => {
+        wrapper.appendChild(createTile(index))
+    })
+}
+
+const createGrid = () => {
+    wrapper.innerHTML = "";
+    columns = Math.floor(document.body.clientWidth / 50)
+    if (columns % colors.length === 0) {
+        columns++
+    }
+    rows = Math.floor(document.body.clientHeight / 50)
+    wrapper.style.setProperty("--columns", columns)
+    wrapper.style.setProperty("--rows", rows)
+    createTiles(columns * rows)
+}
+
+createGrid()
+
+window.onresize = () => createGrid()   
+
+    </script>
+</body>
+</html>

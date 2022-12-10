@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Website</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            text-align: center;
+        }
+        h1 {
+            font-size: 2em;
+            color: #333;
+        }
+        p {
+            font-size: 1.2em;
+            color: #555;
+        }
+        #clock {
+            font-size: 3em;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <h1>Welcome to My Website</h1>
+    <p>This is a more advanced website built using HTML, CSS, and JavaScript.</p>
+    <p>The current time is: <span id="clock"></span></p>
+    <script>
+        // Function to update the clock
+        function updateClock() {
+            // Get the current time
+            var date = new Date();
+            var hours = date.getHours();
+            var minutes = date.getMinutes();
+            var seconds = date.getSeconds();
+            
+            // Format the time as a string
+            var timeString = hours + ":" + minutes + ":" + seconds;
+            
+            // Update the clock element
+            var clockElement = document.getElementById("clock");
+            clockElement.innerHTML = timeString;
+        }
+        
+        // Set an interval to update the clock every second
+        setInterval(updateClock, 1000);
+    </script>
+</body>
+</html>
