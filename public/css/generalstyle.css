@@ -6,9 +6,16 @@ body {
 }
 
 nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    background-color: #333;
+    color: #fff;
   }
 
   ul {
@@ -22,5 +29,5 @@ nav {
 
   a {
     text-decoration: none;
-    color: #333;
+    color: #fff;
   }
