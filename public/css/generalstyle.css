@@ -30,4 +30,12 @@ nav {
   a {
     text-decoration: none;
     color: #fff;
+    padding: 20px;
+    display: block;
+    border: 1px solid #fff;
+  }
+
+  a:hover {
+    background-color: #fff;
+    color: #333;
   }
