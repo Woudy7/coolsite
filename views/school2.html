@@ -237,15 +237,15 @@ const testButton = document.querySelector('#test-button');
  let test_terms = terms.slice()
   let learning_terms = []
 function add_learning_term (i) {
-  if (test_terms.length === 0) {return}
+  if (test_terms.length === 0) {return false}
   const randomInt = Math.floor(Math.random()*test_terms.length)
   learning_terms.splice(i,0,test_terms[randomInt])
   test_terms.splice(randomInt,1)
+  return true
 }
 let count = 0
 let current_question = 0
 let current_term
-let answer_list = []
  function getQuestion () {
     const term = learning_terms[count]
     current_question = count
@@ -254,17 +254,9 @@ let answer_list = []
     test_text.innerHTML = "Give the definition of:"
     asked_term.innerHTML = term.term
     count += 1  
-    console.log(learning_terms,answer_list)
-    if (answer_list.length >= learning_terms.length) {
+    console.log(learning_terms)
+    if (count >= learning_terms.length) {
       count = 0
-      for (let index = 0; index < answer_list.length; index--) {
-        const answer = answer_list[index]
-        if (answer) {
-          learning_terms.splice(index,1)
-          add_learning_term(index)
-        }
-      }
-      answer_list = []
     }
     return term
   }
@@ -273,7 +265,6 @@ let lastCorrect = true
  testButton.addEventListener('click', () => {
         test_terms = terms.slice()
         count = 0
-        answer_list = []
         current_question = 0
         showingAnswer = false
         lastCorrect = true
@@ -310,13 +301,15 @@ let lastCorrect = true
           if (definitionValue.toLowerCase() === current_term.definition.toLowerCase()) {
             // Remove the term from the list
             test_text.innerHTML = "Well done, you got it right!"
-            answer_list.push(true)
             console.log('right')
+            learning_terms.splice(count,1)
+            if (add_learning_term(count) === false) {
+              count -= 1
+            }
             lastCorrect = true
           } else {
             console.log('wrong')
             test_text.innerHTML = "Try again another time, type the correct solution."
-            answer_list.push(false)
             lastCorrect = false
           }
           solution_term.innerHTML = current_term.definition
