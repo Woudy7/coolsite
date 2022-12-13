@@ -81,8 +81,9 @@
         <input type="button" id="test-button" value="Start Test" />
       </form>
       <form id="test-form" style="display: none;">
-        <p>Enter the definition of</p>
+        <p id="test-text">Enter the definition of</p>
         <b id="asked-term">Term</b>
+        <b id="solution-term"></b>
         <input type="text" id="definition-input" />
         <input type="submit" value="Submit" />
         <input type="button" id="exit-button" value="Exit Test" />
@@ -96,7 +97,9 @@
       const test_form = document.querySelector('#test-form')
       const asked_term = document.querySelector('#asked-term')
       const test_input = document.querySelector('#definition-input')
+      const test_text = document.querySelector('#test-text')
       const exit = document.querySelector('#exit-button')
+      const solution_term = document.querySelector('#solution-term')
        // Get a reference to the copy and paste buttons
         const copyButton = document.querySelector('#copy-button');
       const pasteInput = document.querySelector('#paste-input');
@@ -154,7 +157,7 @@ const testButton = document.querySelector('#test-button');
             // Get the values of the term and definition inputs
             const termValue = term_input.value;
             const definitionValue = definition_input.value;
-
+            
             // Update the term and definition in the array
             terms[index] = { term: termValue, definition: definitionValue };
 
@@ -247,6 +250,8 @@ let answer_list = []
     const term = learning_terms[count]
     current_question = count
     current_term = term
+    solution_term.value = ""
+    test_text.value = "Give the definition of:"
     asked_term.innerHTML = term.term
     count += 1
     if (count >= learning_terms.length) {
@@ -278,7 +283,8 @@ let answer_list = []
       });
 
   
-
+let showingAnswer = false
+let lastCorrect = true
 // Add an exit event listener to the exit button
   exit.addEventListener('click', () => {
           // Remove the test form from the page
@@ -289,20 +295,32 @@ let answer_list = []
         });
 
   test_form.addEventListener('submit', (event) => {
+          if (showingAnswer === false) {
           event.preventDefault()
           // Get the value of the definition input field
           const definitionValue = test_input.value;
-
+          showingAnswer = true
           // Check if the definition is correct
           if (definitionValue.toLowerCase() === current_term.definition.toLowerCase()) {
             // Remove the term from the list
+            test_text.value = "Well done, you got it right!"
             answer_list.push(true)
+            lastCorrect = true
           } else {
+            test_text.value = "Try again another time, type the correct solution."
             answer_list.push(false)
+            lastCorrect = false
           }
-          getQuestion()
+          solution_term.value = current_term.definition
+          } else {
+            if (lastCorrect || (lastCorrect === false && test_input.value.toLowerCase() === current_term.definition.toLowerCase())) {
+                showingAnswer = false
+                getQuestion()
+            }
+
+          }
           // Clear the input field
-          document.querySelector('#definition-input').value = '';
+          test_input.value = '';
 
         });
 
