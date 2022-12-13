@@ -254,6 +254,7 @@ let answer_list = []
     test_text.innerHTML = "Give the definition of:"
     asked_term.innerHTML = term.term
     count += 1
+    console.log(learning_terms,answer_list)
     if (count >= learning_terms.length) {
       count = 0
       for (let index = answer_list.length-1; index >= 0; index--) {
