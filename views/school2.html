@@ -295,8 +295,9 @@ let lastCorrect = true
         });
 
   test_form.addEventListener('submit', (event) => {
+        event.preventDefault()
           if (showingAnswer === false) {
-          event.preventDefault()
+          
           // Get the value of the definition input field
           const definitionValue = test_input.value;
           showingAnswer = true
