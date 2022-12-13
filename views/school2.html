@@ -232,15 +232,52 @@ const testButton = document.querySelector('#test-button');
       });
  // Add a click event listener to the test button
  let test_terms = terms.slice()
- 
+  let learning_terms = []
+function add_learning_term () {
+  if (test_terms.length === 0) {return}
+  const randomInt = Math.floor(Math.random()*test_terms.length)
+  learning_terms.push(test_terms[randomInt])
+  test_terms.splice(randomInt,1)
+}
+let count = 0
+let current_question = 0
+let current_term
+let answer_list = []
+ function getQuestion () {
+    const term = learning_terms[count]
+    current_question = count
+    current_term = term
+    asked_term.innerHTML = term.term
+    count += 1
+    if (count >= learning_terms.length) {
+      count = 0
+      for (let index = answer_list.length-1; index >= 0; index--) {
+        const answer = answer_list[index]
+        if (answer) {
+          learning_terms.splice(index,1)
+          add_learning_term()
+        }
+      }
+      answer_list = []
+    }
+    return term
+  }
+
  testButton.addEventListener('click', () => {
         test_terms = terms.slice()
-
+        count = 0
+        learning_terms = []
+        for (let i = 0; i < Math.max(test_terms.length,5); i++) {
+          add_learning_term()
+        }
+        getQuestion()
         form.style.display = "none"
         list.style.display = "none"
 
-        test_form.display = ""
+        test_form.style.display = ""
       });
+
+  
 
 // Add an exit event listener to the exit button
   exit.addEventListener('click', () => {
@@ -252,15 +289,18 @@ const testButton = document.querySelector('#test-button');
         });
 
   test_form.addEventListener('submit', (event) => {
+          event.preventDefault()
           // Get the value of the definition input field
           const definitionValue = test_input.value;
 
           // Check if the definition is correct
-          if (definitionValue.toLowerCase() === term.definition.toLowerCase()) {
+          if (definitionValue.toLowerCase() === current_term.definition.toLowerCase()) {
             // Remove the term from the list
-            test_terms.splice(index, 1);
+            answer_list.push(true)
+          } else {
+            answer_list.push(false)
           }
-
+          getQuestion()
           // Clear the input field
           document.querySelector('#definition-input').value = '';
 
