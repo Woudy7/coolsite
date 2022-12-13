@@ -272,7 +272,7 @@ let answer_list = []
         test_terms = terms.slice()
         count = 0
         learning_terms = []
-        for (let i = 0; i < Math.max(test_terms.length,5); i++) {
+        for (let i = 0; i < Math.min(test_terms.length,5); i++) {
           add_learning_term()
         }
         getQuestion()
