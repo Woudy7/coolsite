@@ -90,6 +90,11 @@
         const copyButton = document.querySelector('#copy-button');
       const pasteInput = document.querySelector('#paste-input');
 
+      const term_input = document.querySelector('#term-input')
+      const definition_input = document.querySelector('#definition-input')
+
+      let test_active = false
+
 // Get a reference to the test button
 const testButton = document.querySelector('#test-button');
 
@@ -114,7 +119,7 @@ const testButton = document.querySelector('#test-button');
           // Create a new button for deleting the term and definition
           const deleteButton = document.createElement('button');
    // Set the text and class of the delete button
-   deleteButton.textContent = 'Delete';
+          deleteButton.textContent = 'Delete';
           deleteButton.classList.add('delete-button');
 
           // Add a click event listener to the delete button
@@ -136,15 +141,15 @@ const testButton = document.querySelector('#test-button');
           // Add a click event listener to the edit button
           editButton.addEventListener('click', () => {
             // Get the values of the term and definition inputs
-            const termValue = document.querySelector('#term-input').value;
-            const definitionValue = document.querySelector('#definition-input').value;
+            const termValue = term_input.value;
+            const definitionValue = definition_input.value;
 
             // Update the term and definition in the array
             terms[index] = { term: termValue, definition: definitionValue };
 
             // Clear the input fields
-            document.querySelector('#term-input').value = '';
-            document.querySelector('#definition-input').value = '';
+            document.term_input.value = '';
+            document.definition_input.value = '';
 
             // Re-render the list
             renderList();
@@ -164,15 +169,24 @@ const testButton = document.querySelector('#test-button');
         event.preventDefault();
 
         // Get the values of the term and definition inputs
-        const termValue = document.querySelector('#term-input').value;
-        const definitionValue = document.querySelector('#definition-input').value;
+        const termValue = term_input.value;
+        const definitionValue = definition_input.value;
+
+        if (termValue.length === 0) {
+          return
+        } else if (definitionValue.length === 0) {
+          definition_input.focus()
+          return
+        }
 
         // Add the term and definition to the array
         terms.push({ term: termValue, definition: definitionValue });
 
         // Clear the input fields
-        document.querySelector('#term-input').value = '';
+        term_input.value = '';
         document.querySelector('#definition-input').value = '';
+        
+        term_input.focus()
 
         // Re-render the list
         renderList();
@@ -249,9 +263,14 @@ const testButton = document.querySelector('#test-button');
         // Add the test form to the page
         document.body.appendChild(testForm);
 
+        form.style.display = "none"
+        list.style.display = "none"
+
         // Add an exit event listener to the exit button
         document.querySelector('#exit-button').addEventListener('click', () => {
           // Remove the test form from the page
+          form.style.display = ""
+        list.style.display = ""
           testForm.remove();
         });
       });
