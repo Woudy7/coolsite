@@ -304,22 +304,22 @@ let lastCorrect = true
           // Check if the definition is correct
           if (definitionValue.toLowerCase() === current_term.definition.toLowerCase()) {
             // Remove the term from the list
-            test_text.value = "Well done, you got it right!"
+            test_text.innerHTML = "Well done, you got it right!"
             answer_list.push(true)
             console.log('right')
             lastCorrect = true
           } else {
             console.log('wrong')
-            test_text.value = "Try again another time, type the correct solution."
+            test_text.innerHTML = "Try again another time, type the correct solution."
             answer_list.push(false)
             lastCorrect = false
           }
-          solution_term.value = current_term.definition
+          solution_term.innerHTML = current_term.definition
           } else {
             if (lastCorrect || (lastCorrect === false && test_input.value.toLowerCase() === current_term.definition.toLowerCase())) {
                 showingAnswer = false
                 getQuestion()
-                console.log('right')
+                console.log('right 2')
             }
 
           }
