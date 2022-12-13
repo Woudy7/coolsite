@@ -268,10 +268,15 @@ let answer_list = []
     }
     return term
   }
-
+  let showingAnswer = false
+let lastCorrect = true
  testButton.addEventListener('click', () => {
         test_terms = terms.slice()
         count = 0
+        answer_list = []
+        current_question = 0
+        showingAnswer = false
+        lastCorrect = true
         learning_terms = []
         for (let i = 0; i < Math.min(test_terms.length,5); i++) {
           add_learning_term(0)
@@ -284,8 +289,7 @@ let answer_list = []
       });
 
   
-let showingAnswer = false
-let lastCorrect = true
+
 // Add an exit event listener to the exit button
   exit.addEventListener('click', () => {
           // Remove the test form from the page
