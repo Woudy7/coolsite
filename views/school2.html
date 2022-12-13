@@ -302,8 +302,8 @@ let lastCorrect = true
             // Remove the term from the list
             test_text.innerHTML = "Well done, you got it right!"
             console.log('right')
-            learning_terms.splice(count,1)
-            if (add_learning_term(count) === false) {
+            learning_terms.splice(current_question,1)
+            if (add_learning_term(current_question) === false) {
               count -= 1
             }
             lastCorrect = true
