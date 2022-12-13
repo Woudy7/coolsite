@@ -194,7 +194,7 @@ const testButton = document.querySelector('#test-button');
         }
 
         // Add the term and definition to the array
-        terms.push({ term: termValue, definition: definitionValue });
+        terms.unshift({ term: termValue, definition: definitionValue });
 
         // Clear the input fields
         term_input.value = '';
