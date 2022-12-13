@@ -306,8 +306,10 @@ let lastCorrect = true
             // Remove the term from the list
             test_text.value = "Well done, you got it right!"
             answer_list.push(true)
+            console.log('right')
             lastCorrect = true
           } else {
+            console.log('wrong')
             test_text.value = "Try again another time, type the correct solution."
             answer_list.push(false)
             lastCorrect = false
@@ -317,6 +319,7 @@ let lastCorrect = true
             if (lastCorrect || (lastCorrect === false && test_input.value.toLowerCase() === current_term.definition.toLowerCase())) {
                 showingAnswer = false
                 getQuestion()
+                console.log('right')
             }
 
           }
