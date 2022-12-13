@@ -80,12 +80,23 @@
         <input type="text" id="paste-input" placeholder="Paste saved list here" />
         <input type="button" id="test-button" value="Start Test" />
       </form>
+      <form id="test-form" style="display: none;">
+        <p>Enter the definition of</p>
+        <b id="asked-term">Term</b>
+        <input type="text" id="definition-input" />
+        <input type="submit" value="Submit" />
+        <input type="button" id="exit-button" value="Exit Test" />
+      </form>
     <dl id="list"></dl>
     <script>
       // Get references to the form and list elements
       const form = document.querySelector('#form');
       const list = document.querySelector('#list');
 
+      const test_form = document.querySelector('#test-form')
+      const asked_term = document.querySelector('#asked-term')
+      const test_input = document.querySelector('#definition-input')
+      const exit = document.querySelector('#exit-button')
        // Get a reference to the copy and paste buttons
         const copyButton = document.querySelector('#copy-button');
       const pasteInput = document.querySelector('#paste-input');
@@ -220,60 +231,41 @@ const testButton = document.querySelector('#test-button');
         renderList();
       });
  // Add a click event listener to the test button
+ let test_terms = terms.slice()
+ 
  testButton.addEventListener('click', () => {
-        // Choose a random term from the list
-        const index = Math.floor(Math.random() * terms.length);
-        const term = terms[index];
+        test_terms = terms.slice()
 
-        // Create a form for the user to enter the definition
-        const testForm = document.createElement('form');
-        testForm.innerHTML = `
-          <p>Enter the definition of "${term.term}":</p>
-          <input type="text" id="definition-input" />
-          <input type="submit" value="Submit" />
-          <input type="button" id="exit-button" value="Exit Test" />
-        `;
+        form.style.display = "none"
+        list.style.display = "none"
 
-        // Add a submit event listener to the test form
-        testForm.addEventListener('submit', (event) => {
-          // Prevent the form from being submitted
-          event.preventDefault();
+        test_form.display = ""
+      });
 
+// Add an exit event listener to the exit button
+  exit.addEventListener('click', () => {
+          // Remove the test form from the page
+          form.style.display = ""
+          list.style.display = ""
+          
+          test_form.style.display = "none"
+        });
+
+  test_form.addEventListener('submit', (event) => {
           // Get the value of the definition input field
-          const definitionValue = document.querySelector('#definition-input').value;
+          const definitionValue = test_input.value;
 
           // Check if the definition is correct
           if (definitionValue.toLowerCase() === term.definition.toLowerCase()) {
             // Remove the term from the list
-            terms.splice(index, 1);
+            test_terms.splice(index, 1);
           }
 
           // Clear the input field
           document.querySelector('#definition-input').value = '';
 
-          // Re-render the list
-          renderList();
-
-          // Choose a new random term for the test
-          testButton.click();
         });
 
-        
-
-        // Add the test form to the page
-        document.body.appendChild(testForm);
-
-        form.style.display = "none"
-        list.style.display = "none"
-
-        // Add an exit event listener to the exit button
-        document.querySelector('#exit-button').addEventListener('click', () => {
-          // Remove the test form from the page
-          form.style.display = ""
-        list.style.display = ""
-          testForm.remove();
-        });
-      });
 
       // Render the initial list of terms and definitions
       renderList();
