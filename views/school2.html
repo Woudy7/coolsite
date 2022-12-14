@@ -247,20 +247,14 @@ let count = 0
 let current_question = 0
 let current_term
  function getQuestion () {
-  if (count >= learning_terms.length) {
-      count = 0
-    }
-    const term = learning_terms[count]
-    current_question = count
+    const term = learning_terms[count % learning_terms.length]
+    current_question = count % learning_terms.length
     current_term = term
     solution_term.innerHTML = ""
     test_text.innerHTML = "Give the definition of:"
     asked_term.innerHTML = term.term
     count += 1  
     console.log(learning_terms)
-    if (count >= learning_terms.length) {
-      count = 0
-    }
     return term
   }
   let showingAnswer = false
