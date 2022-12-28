@@ -62,6 +62,62 @@
         cursor: pointer;
         margin-left: 10px;
       }
+
+      /* Use a clean and modern font */
+      body {
+        font-family: 'Open Sans', sans-serif;
+        max-width: 600px;
+        margin: auto;
+        padding: 20px;
+      }
+
+      /* Use appropriate font sizes */
+      h1 {
+        font-size: 24px;
+        margin-bottom: 20px;
+      }
+
+      form label {
+        font-size: 16px;
+      }
+
+      /* Use a consistent color scheme */
+      body {
+        background-color: #ffffff;
+        color: #333333;
+      }
+
+      input[type="submit"],
+      .delete-button,
+      #test-button,
+      #exit-button {
+        background-color: #006699;
+        color: #ffffff;
+      }
+
+      /* Use hover effects */
+      input[type="submit"]:hover,
+      .delete-button:hover,
+      #test-button:hover,
+      #exit-button:hover {
+        background-color: #003366;
+      }
+
+      /* Use transitions and animations */
+      input[type="submit"],
+      .delete-button,
+      #test-button,
+      #exit-button {
+        transition: background-color 0.2s ease-in-out;
+      }
+
+      /* Make the layout responsive */
+      @media (max-width: 600px) {
+        form {
+          flex-direction: column;
+        }
+      }
+
     </style>
 </head>
 <body>
